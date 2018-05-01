@@ -21,19 +21,27 @@ T = 1;
 a = 0.1;
 b = 0.1;                      % obtain channel parameters
 %% restore Q4_3_3.
-H = T./(pi*(U*a+V*b)).*sin(pi*(U*a+V*b)).*exp(-1i*pi*(U*a+V*b));
+H = T./(pi*((U-s(2)/2)*a+(V-s(1)/2)*b)).*sin(pi*((U-s(2)/2)*a+(V-s(1)/2)*b)).*exp(-1i*pi*((U-s(2)/2)*a+(V-s(1)/2)*b));
+% H = T./(pi*(U*a+V*b)).*sin(pi*(U*a+V*b)).*exp(-1i*pi*(U*a+V*b));
+% mesh(abs(H));
+Hr = H;
+Hr(Hr<0.05) = 1;
 
 I3shift = I3.*(-1).^idx;    % centralize in frequency domain
 I3freq = fft2(I3shift);     % map image to frequency domain
-O3freq = I3freq.*H;         % remove channel from image in frequency domain
-O3 = ifft2(O3freq);
-% O3 = O3shift.*(-1).^idx;    % undo centralization
 
-% O3plot = O3-min(O3(:));
-O3plot = abs(O3);
-O3plot = O3plot/max(O3plot(:))*255;
-figure; imshow(uint8(O3plot));
+% I3freq_plot = abs(I3freq);
+% I3freq_plot = I3freq_plot/max(I3freq_plot(:))*255;
+% figure;imshow(I3freq_plot);
+
+Y3freq = I3freq./H;         % remove channel from image in frequency domain
+Y3shift = ifft2(Y3freq);
+Y3 = Y3shift.*(-1).^idx;    % undo centralization
+
+Y3plot = abs(Y3);
+Y3plot = Y3plot/max(Y3plot(:))*255;
+figure; imshow(uint8(Y3plot));
 
 %% filter salt & pepper noise from Q4_3_1.
-O1_1 = adaptiveMedianFilter(I1,5);
-figure;imshow(uint8(O1_1));
+% O1_1 = adaptiveMedianFilter(I1,5);
+% figure;imshow(uint8(O1_1));
