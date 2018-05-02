@@ -30,15 +30,16 @@ draw(y1shift);
 %% radially inverse filtering
 
 Hr = H;
-Hr(Hr<0.05)=1;
+Hr(Hr<0.01)=1;
 Y2 = Ifreq./Hr;
 y2 = ifft2(Y2);
 y2shift = y2.*(-1).^idx;
-y2shift = y2shift(1:s(1),1:s(2));
+% y2shift = y2shift(1:s(1),1:s(2));
 draw(y2shift);
 
 %% Wiener filtering
 
-y3 = WiennerFilter(I, H, 0.0001);
+% y3 = WiennerFilter(I, H, 0.00065);
+y3 = constLSFilter(I, H, 0.0001);
 draw(y3);
 

@@ -9,6 +9,7 @@ Ishift = InputImage.*((-1).^idx);  % centralize image in frequency domain
 Ifreq = fft2(Ishift);   % apply fft on image
 
 Y = 1./H.*(abs(H)).^2./((abs(H)).^2+K).*Ifreq;
-OutputImage = ifft2(Y);
+OutShift = ifft2(Y);
+OutputImage = OutShift.*(-1).^idx;
 
 end
