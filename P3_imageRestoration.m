@@ -25,12 +25,11 @@ b = 0.1;                    % obtain channel parameters
 
 K=0.0025;
 
-H = T./(pi*((U-s(2)/2)*a+(V-s(1)/2)*b)).*sin(pi*((U-s(2)/2)*a+(V-s(1)/2)*b)).*exp(-1i*pi*((U-s(2)/2)*a+(V-s(1)/2)*b));
-% H = H/max(H(:));
-% H = T./(pi*(U*a+V*b)).*sin(pi*(U*a+V*b)).*exp(-1i*pi*(U*a+V*b));
-mesh(abs(H));
+% H = T./(pi*((U-s(2)/2)*a+(V-s(1)/2)*b)).*sin(pi*((U-s(2)/2)*a+(V-s(1)/2)*b)).*exp(-1i*pi*((U-s(2)/2)*a+(V-s(1)/2)*b));
+H = T./(pi*(U*a+V*b)).*sin(pi*(U*a+V*b)).*exp(-1i*pi*(U*a+V*b));
+% mesh(abs(H));
 
-y3 = WiennerFilter(I3, H, 0.0001);
+y3 = WiennerFilter(I3, H, 0.01);
 % y3 = constLSFilter(I3, H, 1);
 draw(y3);
 
